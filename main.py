@@ -1,5 +1,5 @@
-from telegram.ext import Application, CommandHandler, MessageHandler, filters
-from telegram import BotCommand, ReplyKeyboardMarkup
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram import BotCommand, ReplyKeyboardMarkup, Update
 from fastapi import FastAPI, Request
 import os
 
@@ -12,7 +12,7 @@ WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "HELLOWORLD")
 app = FastAPI() 
 tg_app = Application.builder().token(BOT_TOKEN).build()
 
-async def start(start, context):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     kb = ReplyKeyboardMarkup([["Create QR"]], resize_keyboard=True, one_time_keyboard=False)
     await update.message.reply_text(
             'Hi! Tap the button below to create QR from any text',
